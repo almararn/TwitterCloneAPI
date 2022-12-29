@@ -1,4 +1,5 @@
-﻿using TwitterCloneAPI.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TwitterCloneAPI.Models;
 
 namespace TwitterCloneAPI.Data
 {
@@ -12,7 +13,7 @@ namespace TwitterCloneAPI.Data
 
         public List<Tweet> GetAllTweets()
         {
-           return _dbContext.Tweets.ToList();
+           return _dbContext.Tweets.Include(x => x.User).Include(y => y.Comment).ToList();
         }
 
         public void CreateTweet(Tweet tweet)
@@ -23,6 +24,36 @@ namespace TwitterCloneAPI.Data
         public Tweet? GetTweetById(int id)
         {
             return _dbContext.Tweets.Where(t => t.TweetId == id).FirstOrDefault();
+        }
+        public bool DeleteTweet(Tweet tweet)
+        {
+            try
+            {
+                _dbContext.Tweets.Remove(tweet);
+                _dbContext.SaveChanges();
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+        public Tweet? UpdateTweet(int id, Tweet tweetFromBody)
+        {
+            Tweet? tweetFromDB = GetTweetById(id);
+
+            if (tweetFromDB == null)
+            {
+                return null;
+            }
+
+            tweetFromDB.Comment = tweetFromBody.Comment;
+
+            _dbContext.SaveChanges();
+
+            return tweetFromDB;
         }
     }
 }

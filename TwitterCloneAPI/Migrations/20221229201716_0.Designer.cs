@@ -12,8 +12,8 @@ using TwitterCloneAPI.Data;
 namespace TwitterCloneAPI.Migrations
 {
     [DbContext(typeof(TwitterCloneDbContext))]
-    [Migration("20221220173156_2")]
-    partial class _2
+    [Migration("20221229201716_0")]
+    partial class _0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,53 @@ namespace TwitterCloneAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("TwitterCloneAPI.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
+
+                    b.Property<string>("CommentText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("TweetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("TweetId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+
+                    b.HasData(
+                        new
+                        {
+                            CommentId = 1,
+                            CommentText = "prufa comment",
+                            Timestamp = new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7459),
+                            TweetId = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            CommentId = 2,
+                            CommentText = "prufa comment2",
+                            Timestamp = new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7497),
+                            TweetId = 1,
+                            UserId = 2
+                        });
+                });
+
             modelBuilder.Entity("TwitterCloneAPI.Models.Tweet", b =>
                 {
                     b.Property<int>("TweetId")
@@ -32,10 +79,6 @@ namespace TwitterCloneAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TweetId"));
-
-                    b.Property<string>("Comment")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Like")
                         .HasMaxLength(255)
@@ -51,7 +94,12 @@ namespace TwitterCloneAPI.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("TweetId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tweets");
 
@@ -59,20 +107,11 @@ namespace TwitterCloneAPI.Migrations
                         new
                         {
                             TweetId = 1,
-                            Comment = "first comment",
                             Like = "User4",
                             Retweet = "User4",
                             Text = "This is my first tweet",
-                            Timestamp = new DateTime(2022, 12, 20, 17, 31, 56, 95, DateTimeKind.Local).AddTicks(1821)
-                        },
-                        new
-                        {
-                            TweetId = 2,
-                            Comment = "nice tweet",
-                            Like = "User1",
-                            Retweet = "User4",
-                            Text = "Tweet number two is here, making it a little bit longer than the first one. Few lines more. Just adding some text to make it to the third line of the user intrerface.",
-                            Timestamp = new DateTime(2022, 12, 20, 17, 31, 56, 95, DateTimeKind.Local).AddTicks(1836)
+                            Timestamp = new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7432),
+                            UserId = 1
                         });
                 });
 
@@ -90,12 +129,7 @@ namespace TwitterCloneAPI.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TweetId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
-
-                    b.HasIndex("TweetId");
 
                     b.ToTable("Users");
 
@@ -105,19 +139,44 @@ namespace TwitterCloneAPI.Migrations
                             UserId = 1,
                             FirstName = "User1",
                             LastName = "LastName1"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            FirstName = "User2",
+                            LastName = "LastName2"
                         });
                 });
 
-            modelBuilder.Entity("TwitterCloneAPI.Models.User", b =>
+            modelBuilder.Entity("TwitterCloneAPI.Models.Comment", b =>
                 {
                     b.HasOne("TwitterCloneAPI.Models.Tweet", null)
-                        .WithMany("User")
+                        .WithMany("Comment")
                         .HasForeignKey("TweetId");
+
+                    b.HasOne("TwitterCloneAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TwitterCloneAPI.Models.Tweet", b =>
                 {
+                    b.HasOne("TwitterCloneAPI.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TwitterCloneAPI.Models.Tweet", b =>
+                {
+                    b.Navigation("Comment");
                 });
 #pragma warning restore 612, 618
         }

@@ -48,5 +48,56 @@ namespace TwitterCloneAPI.Controllers
             return tweet;
 
         }
+
+        [HttpDelete]
+        [Route("tweet/{id}")]
+        public ActionResult<bool> DeleteTweetById(int id)
+        {
+            try
+            {
+                Tweet? tweet = _repo.GetTweetById(id);
+
+                if (tweet == null)
+                {
+                    return NotFound();
+                }
+
+                bool succsess = _repo.DeleteTweet(tweet);
+                if (!succsess)
+                {
+                    return StatusCode(500);
+                }
+
+                return Ok();
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
+        [HttpPut]
+        [Route("tweet/{id}")]
+        public IActionResult UpdateTweet(int id, Tweet tweetFromBody)
+        {
+
+            try
+            {
+                Tweet? updated = _repo.UpdateTweet(id, tweetFromBody);
+
+                if (updated == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
     }
 }
