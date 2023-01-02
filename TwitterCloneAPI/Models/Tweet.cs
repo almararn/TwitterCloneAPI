@@ -6,14 +6,11 @@ namespace TwitterCloneAPI.Models
     {
         public int TweetId { get; set; }
         public string? Text { get; set; }
-        [MaxLength(255)]
-        public List<Comment>? Comment { get; set; }
-        [MaxLength(255)]
-        public string? Retweet { get; set; }
-        [MaxLength(255)]
-        public string? Like { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.Now;
-        public int UserId { get; set; }
+        public int UserId { get; set; } 
         public User? User { get; set; }
+        public List<Like>? Likes { get; set; }
+        public List<Comment>? Comments { get; set; }
+        
     }
 }

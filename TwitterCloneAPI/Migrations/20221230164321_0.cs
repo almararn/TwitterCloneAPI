@@ -34,8 +34,6 @@ namespace TwitterCloneAPI.Migrations
                     TweetId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Retweet = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Like = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -56,10 +54,10 @@ namespace TwitterCloneAPI.Migrations
                 {
                     CommentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CommentText = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TweetId = table.Column<int>(type: "int", nullable: true)
+                    TweetId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,6 +75,26 @@ namespace TwitterCloneAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    LikeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TweetId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.LikeId);
+                    table.ForeignKey(
+                        name: "FK_Likes_Tweets_TweetId",
+                        column: x => x.TweetId,
+                        principalTable: "Tweets",
+                        principalColumn: "TweetId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "FirstName", "LastName" },
@@ -88,16 +106,30 @@ namespace TwitterCloneAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tweets",
-                columns: new[] { "TweetId", "Like", "Retweet", "Text", "Timestamp", "UserId" },
-                values: new object[] { 1, "User4", "User4", "This is my first tweet", new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7432), 1 });
+                columns: new[] { "TweetId", "Text", "Timestamp", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "This is my first tweet", new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5210), 2 },
+                    { 2, "Tweet number two is here", new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5237), 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Comments",
-                columns: new[] { "CommentId", "CommentText", "Timestamp", "TweetId", "UserId" },
+                columns: new[] { "CommentId", "Text", "Timestamp", "TweetId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "prufa comment", new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7459), 1, 2 },
-                    { 2, "prufa comment2", new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7497), 1, 2 }
+                    { 1, "prufa comment", new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5246), 1, 1 },
+                    { 2, "prufa comment2", new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5265), 2, 2 },
+                    { 3, "prufa comment3", new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5274), 2, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Likes",
+                columns: new[] { "LikeId", "TweetId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 2, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -111,6 +143,11 @@ namespace TwitterCloneAPI.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Likes_TweetId",
+                table: "Likes",
+                column: "TweetId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tweets_UserId",
                 table: "Tweets",
                 column: "UserId");
@@ -121,6 +158,9 @@ namespace TwitterCloneAPI.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "Tweets");

@@ -12,7 +12,7 @@ using TwitterCloneAPI.Data;
 namespace TwitterCloneAPI.Migrations
 {
     [DbContext(typeof(TwitterCloneDbContext))]
-    [Migration("20221229201716_0")]
+    [Migration("20221230164321_0")]
     partial class _0
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace TwitterCloneAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
-                    b.Property<string>("CommentText")
+                    b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Timestamp")
@@ -57,17 +57,60 @@ namespace TwitterCloneAPI.Migrations
                         new
                         {
                             CommentId = 1,
-                            CommentText = "prufa comment",
-                            Timestamp = new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7459),
+                            Text = "prufa comment",
+                            Timestamp = new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5246),
                             TweetId = 1,
-                            UserId = 2
+                            UserId = 1
                         },
                         new
                         {
                             CommentId = 2,
-                            CommentText = "prufa comment2",
-                            Timestamp = new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7497),
+                            Text = "prufa comment2",
+                            Timestamp = new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5265),
+                            TweetId = 2,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            CommentId = 3,
+                            Text = "prufa comment3",
+                            Timestamp = new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5274),
+                            TweetId = 2,
+                            UserId = 1
+                        });
+                });
+
+            modelBuilder.Entity("TwitterCloneAPI.Models.Like", b =>
+                {
+                    b.Property<int>("LikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikeId"));
+
+                    b.Property<int>("TweetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LikeId");
+
+                    b.HasIndex("TweetId");
+
+                    b.ToTable("Likes");
+
+                    b.HasData(
+                        new
+                        {
+                            LikeId = 1,
                             TweetId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            LikeId = 2,
+                            TweetId = 2,
                             UserId = 2
                         });
                 });
@@ -79,14 +122,6 @@ namespace TwitterCloneAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TweetId"));
-
-                    b.Property<string>("Like")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Retweet")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -107,10 +142,15 @@ namespace TwitterCloneAPI.Migrations
                         new
                         {
                             TweetId = 1,
-                            Like = "User4",
-                            Retweet = "User4",
                             Text = "This is my first tweet",
-                            Timestamp = new DateTime(2022, 12, 29, 20, 17, 16, 422, DateTimeKind.Local).AddTicks(7432),
+                            Timestamp = new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5210),
+                            UserId = 2
+                        },
+                        new
+                        {
+                            TweetId = 2,
+                            Text = "Tweet number two is here",
+                            Timestamp = new DateTime(2022, 12, 30, 16, 43, 20, 989, DateTimeKind.Local).AddTicks(5237),
                             UserId = 1
                         });
                 });
@@ -151,7 +191,7 @@ namespace TwitterCloneAPI.Migrations
             modelBuilder.Entity("TwitterCloneAPI.Models.Comment", b =>
                 {
                     b.HasOne("TwitterCloneAPI.Models.Tweet", null)
-                        .WithMany("Comment")
+                        .WithMany("Comments")
                         .HasForeignKey("TweetId");
 
                     b.HasOne("TwitterCloneAPI.Models.User", "User")
@@ -163,6 +203,15 @@ namespace TwitterCloneAPI.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TwitterCloneAPI.Models.Like", b =>
+                {
+                    b.HasOne("TwitterCloneAPI.Models.Tweet", null)
+                        .WithMany("Likes")
+                        .HasForeignKey("TweetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TwitterCloneAPI.Models.Tweet", b =>
                 {
                     b.HasOne("TwitterCloneAPI.Models.User", "User")
@@ -176,7 +225,9 @@ namespace TwitterCloneAPI.Migrations
 
             modelBuilder.Entity("TwitterCloneAPI.Models.Tweet", b =>
                 {
-                    b.Navigation("Comment");
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

@@ -32,6 +32,22 @@ namespace TwitterCloneAPI.Controllers
             return StatusCode(201);
         }
 
+        [HttpPost]
+        [Route("comments")]
+        public ActionResult<Comment> AddComment(Comment comment)
+        {
+            _repo.AddComment(comment);
+            return StatusCode(201);
+        }
+
+        [HttpPost]
+        [Route("likes")]
+        public ActionResult<Like> AddLike(Like like)
+        {
+            _repo.AddLike(like);
+            return StatusCode(201);
+        }
+
         [HttpGet]
         [Route("tweet/{id}")]
         public ActionResult<Tweet> GetTweetById(int id)
@@ -63,6 +79,34 @@ namespace TwitterCloneAPI.Controllers
                 }
 
                 bool succsess = _repo.DeleteTweet(tweet);
+                if (!succsess)
+                {
+                    return StatusCode(500);
+                }
+
+                return Ok();
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
+        [HttpDelete]
+        [Route("likes/{id}")]
+        public ActionResult<bool> DeleteLikeById(int id)
+        {
+            try
+            {
+                Like? like = _repo.GetLikeById(id);
+
+                if (like == null)
+                {
+                    return NotFound();
+                }
+
+                bool succsess = _repo.DeleteLike(like);
                 if (!succsess)
                 {
                     return StatusCode(500);
