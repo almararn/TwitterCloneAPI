@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TwitterCloneAPI.Data;
 
@@ -11,9 +12,11 @@ using TwitterCloneAPI.Data;
 namespace TwitterCloneAPI.Migrations
 {
     [DbContext(typeof(TwitterCloneDbContext))]
-    partial class TwitterCloneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230103153934_3")]
+    partial class _3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +58,7 @@ namespace TwitterCloneAPI.Migrations
                         {
                             CommentId = 1,
                             Text = "prufa comment",
-                            Timestamp = new DateTime(2023, 1, 3, 15, 42, 31, 231, DateTimeKind.Local).AddTicks(531),
+                            Timestamp = new DateTime(2023, 1, 3, 15, 39, 34, 176, DateTimeKind.Local).AddTicks(8568),
                             TweetId = 1,
                             UserId = 1
                         },
@@ -63,7 +66,7 @@ namespace TwitterCloneAPI.Migrations
                         {
                             CommentId = 2,
                             Text = "prufa comment2",
-                            Timestamp = new DateTime(2023, 1, 3, 15, 42, 31, 231, DateTimeKind.Local).AddTicks(552),
+                            Timestamp = new DateTime(2023, 1, 3, 15, 39, 34, 176, DateTimeKind.Local).AddTicks(8597),
                             TweetId = 2,
                             UserId = 2
                         },
@@ -71,7 +74,7 @@ namespace TwitterCloneAPI.Migrations
                         {
                             CommentId = 3,
                             Text = "prufa comment3",
-                            Timestamp = new DateTime(2023, 1, 3, 15, 42, 31, 231, DateTimeKind.Local).AddTicks(562),
+                            Timestamp = new DateTime(2023, 1, 3, 15, 39, 34, 176, DateTimeKind.Local).AddTicks(8865),
                             TweetId = 2,
                             UserId = 1
                         });
@@ -140,14 +143,14 @@ namespace TwitterCloneAPI.Migrations
                         {
                             TweetId = 1,
                             Text = "This is my first tweet",
-                            Timestamp = new DateTime(2023, 1, 3, 15, 42, 31, 231, DateTimeKind.Local).AddTicks(484),
+                            Timestamp = new DateTime(2023, 1, 3, 15, 39, 34, 176, DateTimeKind.Local).AddTicks(8495),
                             UserId = 2
                         },
                         new
                         {
                             TweetId = 2,
                             Text = "Tweet number two is here",
-                            Timestamp = new DateTime(2023, 1, 3, 15, 42, 31, 231, DateTimeKind.Local).AddTicks(518),
+                            Timestamp = new DateTime(2023, 1, 3, 15, 39, 34, 176, DateTimeKind.Local).AddTicks(8545),
                             UserId = 1
                         });
                 });
@@ -177,16 +180,16 @@ namespace TwitterCloneAPI.Migrations
                         new
                         {
                             UserId = 1,
-                            FirstName = "Donald J.",
-                            Handle = "@realDonaldTrump",
-                            LastName = "Trump"
+                            FirstName = "User1",
+                            Handle = "@firstuser",
+                            LastName = "LastName1"
                         },
                         new
                         {
                             UserId = 2,
-                            FirstName = "Elon",
-                            Handle = "@elonmusk",
-                            LastName = "Musk"
+                            FirstName = "User2",
+                            Handle = "@seconduser",
+                            LastName = "LastName2"
                         });
                 });
 

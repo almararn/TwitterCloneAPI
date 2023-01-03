@@ -20,10 +20,10 @@ namespace TwitterCloneAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            User us1= new User { UserId = 1, FirstName = "User1", LastName = "LastName1" };
+            User us1= new User { UserId = 1, FirstName = "Donald J.", LastName = "Trump", Handle = "@realDonaldTrump" };
             modelBuilder.Entity<User>().HasData(us1);
        
-            User us2 = new User { UserId = 2, FirstName = "User2", LastName = "LastName2" };
+            User us2 = new User { UserId = 2, FirstName = "Elon", LastName = "Musk", Handle = "@elonmusk" };
             modelBuilder.Entity<User>().HasData(us2);
 
             Tweet tw1 = new Tweet { TweetId = 1, Text = "This is my first tweet", UserId = 2 };

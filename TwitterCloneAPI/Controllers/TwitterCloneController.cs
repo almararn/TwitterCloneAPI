@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TwitterCloneAPI.Data;
 using TwitterCloneAPI.Models;
-
+using TwitterCloneAPI.Models.DTO;
 
 namespace TwitterCloneAPI.Controllers
 {
@@ -22,6 +22,29 @@ namespace TwitterCloneAPI.Controllers
         public List<Tweet> GetAllTweets()
         {
             return _repo.GetAllTweets();
+        }
+
+        [HttpGet]
+        [Route("users")]
+        public List<User> GetAllUsers()
+        {
+            return _repo.GetAllUsers();
+        }
+
+        [HttpGet]
+        [Route("user/{id}")]
+        public ActionResult<User> GetUserById(int id)
+        {
+
+            User? user = _repo.GetUserById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+
         }
 
         [HttpPost]
@@ -54,12 +77,14 @@ namespace TwitterCloneAPI.Controllers
         {
 
             Tweet? tweet = _repo.GetTweetById(id);
+          //  User? user = _repo.GetUserId();
 
             if (tweet == null)
             {
                 return NotFound();
             }
 
+        //    TweetDTO tweetDTO = new TweetDTO() { TweetId = tweet.TweetId, Text = tweet.Text, UserIds = user!.UserId };
 
             return tweet;
 

@@ -25,7 +25,6 @@ namespace TwitterCloneAPI.Data
         {
     
              return _dbContext.Tweets.Where(t => t.TweetId == id).Include(x => x.User).Include(z => z.Likes).Include(y => y.Comments).ThenInclude(z => z.User).FirstOrDefault(); 
-     
             
         }
         public Like GetLikeById(int id)
@@ -33,6 +32,11 @@ namespace TwitterCloneAPI.Data
 
             return _dbContext.Likes.Where(t => t.LikeId == id).FirstOrDefault();
 
+        }
+        public User GetUserById(int id)
+        {
+
+            return _dbContext.Users.Where(t => t.UserId == id).FirstOrDefault();
 
         }
         public bool DeleteTweet(Tweet tweet)
@@ -89,6 +93,10 @@ namespace TwitterCloneAPI.Data
 
                 return false;
             }
+        }
+        public List<User> GetAllUsers()
+        { 
+          return _dbContext.Users.ToList();
         }
     }
 }
