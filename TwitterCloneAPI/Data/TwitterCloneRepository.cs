@@ -21,13 +21,13 @@ namespace TwitterCloneAPI.Data
             _dbContext.Tweets.Add(tweet);
             _dbContext.SaveChanges();
         }
-        public Tweet GetTweetById(int id)
+        public Tweet? GetTweetById(int id)
         {
     
-             return _dbContext.Tweets.Where(t => t.TweetId == id).Include(x => x.User).Include(z => z.Likes).Include(y => y.Comments).ThenInclude(z => z.User).FirstOrDefault(); 
+             return _dbContext.Tweets.Where(t => t.TweetId == id).Include(x => x.User).Include(z => z.Likes).ThenInclude(z => z.User).Include(y => y.Comments).ThenInclude(z => z.User).FirstOrDefault(); 
             
         }
-        public Like GetLikeById(int id)
+        public Like? GetLikeById(int id)
         {
 
             return _dbContext.Likes.Where(t => t.LikeId == id).FirstOrDefault();

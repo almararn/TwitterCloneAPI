@@ -26,6 +26,9 @@ namespace TwitterCloneAPI.Data
             User us2 = new User { UserId = 2, FirstName = "Elon", LastName = "Musk", Handle = "@elonmusk" };
             modelBuilder.Entity<User>().HasData(us2);
 
+            User us3 = new User { UserId = 3, FirstName = "Barack", LastName = "Obama", Handle = "@BarackObama" };
+            modelBuilder.Entity<User>().HasData(us3);
+
             Tweet tw1 = new Tweet { TweetId = 1, Text = "This is my first tweet", UserId = 2 };
             modelBuilder.Entity<Tweet>().HasData(tw1);
             
