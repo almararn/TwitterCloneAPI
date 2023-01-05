@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TwitterCloneAPI.Data;
 using TwitterCloneAPI.Models;
-using TwitterCloneAPI.Models.DTO;
 
 namespace TwitterCloneAPI.Controllers
 {
