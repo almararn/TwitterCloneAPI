@@ -10,7 +10,7 @@ namespace TwitterCloneAPI.Data
         public DbSet<Tweet> Tweets { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Like> Likes { get; set; }
+        public DbSet<Like>? Likes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -20,9 +20,9 @@ namespace TwitterCloneAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            User us1= new User { UserId = 1, FirstName = "Donald J.", LastName = "Trump", Handle = "@realDonaldTrump" };
+            User us1 = new User { UserId = 1, FirstName = "Donald J.", LastName = "Trump", Handle = "@realDonaldTrump" };
             modelBuilder.Entity<User>().HasData(us1);
-       
+
             User us2 = new User { UserId = 2, FirstName = "Elon", LastName = "Musk", Handle = "@elonmusk" };
             modelBuilder.Entity<User>().HasData(us2);
 
@@ -31,7 +31,7 @@ namespace TwitterCloneAPI.Data
 
             Tweet tw1 = new Tweet { TweetId = 1, Text = "This is my first tweet", UserId = 2 };
             modelBuilder.Entity<Tweet>().HasData(tw1);
-            
+
             Tweet tw2 = new Tweet { TweetId = 2, Text = "Tweet number two is here", UserId = 1 };
             modelBuilder.Entity<Tweet>().HasData(tw2);
 

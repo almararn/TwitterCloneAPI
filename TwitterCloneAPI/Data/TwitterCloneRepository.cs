@@ -13,7 +13,7 @@ namespace TwitterCloneAPI.Data
 
         public List<Tweet> GetAllTweets()
         {
-            return _dbContext.Tweets.Include(x => x.User).Include(y => y.Comments).Include(z => z.Likes).ToList();
+            return _dbContext.Tweets.Include(x => x.User).Include(z => z.Likes).ThenInclude(z => z.User).Include(y => y.Comments).ThenInclude(z => z.User).ToList();
         }
 
         public void CreateTweet(Tweet tweet)

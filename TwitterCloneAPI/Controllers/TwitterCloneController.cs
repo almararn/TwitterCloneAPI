@@ -35,7 +35,6 @@ namespace TwitterCloneAPI.Controllers
         [Route("user/{id}")]
         public ActionResult<User> GetUserById(int id)
         {
-
             User? user = _repo.GetUserById(id);
 
             if (user == null)
@@ -44,7 +43,6 @@ namespace TwitterCloneAPI.Controllers
             }
 
             return user;
-
         }
 
         [HttpPost]
@@ -77,14 +75,11 @@ namespace TwitterCloneAPI.Controllers
         {
 
             Tweet? tweet = _repo.GetTweetById(id);
-          //  User? user = _repo.GetUserId();
 
             if (tweet == null)
             {
                 return NotFound();
             }
-
-        //    TweetDTO tweetDTO = new TweetDTO() { TweetId = tweet.TweetId, Text = tweet.Text, UserIds = user!.UserId };
 
             return tweet;
 
