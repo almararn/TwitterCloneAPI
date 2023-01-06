@@ -29,6 +29,15 @@ namespace TwitterCloneAPI.Data
             User us3 = new User { UserId = 3, FirstName = "Barack", LastName = "Obama", Handle = "@BarackObama" };
             modelBuilder.Entity<User>().HasData(us3);
 
+            User us4 = new User { UserId = 4, FirstName = "Justin", LastName = "Bieber", Handle = "@justinbieber" };
+            modelBuilder.Entity<User>().HasData(us4);
+
+            User us5 = new User { UserId = 5, FirstName = "Katy", LastName = "Perry", Handle = "@katyperry" };
+            modelBuilder.Entity<User>().HasData(us5);
+
+            User us6 = new User { UserId = 6, FirstName = "Rihanna", LastName = " ", Handle = "@rihanna" };
+            modelBuilder.Entity<User>().HasData(us6);
+
             Tweet tw1 = new Tweet { TweetId = 1, Text = "This is my first tweet", UserId = 2 };
             modelBuilder.Entity<Tweet>().HasData(tw1);
 
@@ -47,7 +56,7 @@ namespace TwitterCloneAPI.Data
             Like lk1 = new Like { LikeId = 1, TweetId = 1, UserId = 1 };
             modelBuilder.Entity<Like>().HasData(lk1);
 
-            Like lk2 = new Like { LikeId = 2, TweetId = 1, UserId = 2 };
+            Like lk2 = new Like { LikeId = 2, TweetId = 2, UserId = 2 };
             modelBuilder.Entity<Like>().HasData(lk2);
         }
     }
