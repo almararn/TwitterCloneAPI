@@ -4,4 +4,4 @@
 
 Entity Framework Core 6, MSSQL gagnagrunnur fyrir Twitter Clone verkefni.
 
-Notendaviðmót skrifað með Flutter er að finna hér: <https://github.com/almararn/TwitterCloneAPI.git>
+Notendaviðmót skrifað með Flutter er að finna hér: <https://github.com/almararn/twitter_clone.git>
